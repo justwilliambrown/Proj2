@@ -88,6 +88,7 @@ public class NgramAnalyserTest
         NgramAnalyser analyser = new NgramAnalyser(2, "aabcabaacaac");
         assertEquals(3,analyser.getAlphabetSize());
         assertEquals(6,analyser.getDistinctNgramCount() );
+        System.out.print(analyser.getDistinctNgramCount());
         HashMap<String, Integer> ngram = extractMap(analyser);
 
         assertEquals(3,(int) ngram.get("aa"));

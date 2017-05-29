@@ -1,10 +1,7 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
-
-import java.util.HashSet;
-import java.util.Arrays;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Perform n-gram analysis of a string.
@@ -30,6 +27,9 @@ public class NgramAnalyser
 	/** n-gram size for this object (new field) */
 	private int ngramSize;
 
+	/** Number of total characters in input */
+	private int stringSize = 0;
+
 	/** 
 	 * Analyse the frequency with which distinct n-grams, of length n,
 	 * appear in an input string. 
@@ -38,36 +38,36 @@ public class NgramAnalyser
 	 * @param int n size of n-grams to create
 	 * @param String inp input string to be modelled
 	 */
-	private int stringSize = 0;
-	
+
 	public NgramAnalyser(int n, String inp) 
 	{     	
 		ngram = new HashMap<String, Integer>();
-		
+		ngramSize = n;
+
 		// Check for validity
 		if (inp == "" || inp == null || n == 0 || inp.length() < n)
 		{
 			throw new IllegalArgumentException("Invalid Input");
 		}
-		
+
 		// Do the string size thing
 		stringSize = inp.length();
-		
-		int cur_pos = 0;
-		// Splice the n characters (including cur_pos)
+
+		int curPos = 0;
+		// Splice the n characters (including curPos)
 		// Check if they match any ngrams currently in the hashmap
 		// If there are: Increase frequency by 1
 		// If there aren't: Add it with a frequency of 1
-		for (cur_pos = 0; cur_pos < (inp.length()); cur_pos++)
+		for (curPos = 0; curPos < (inp.length()); curPos++)
 		{	
 			String thisNgram = "";
-			if (cur_pos + n <= inp.length())
+			if (curPos + n <= inp.length())
 			{
-				thisNgram = inp.substring(cur_pos, (cur_pos+n));
+				thisNgram = inp.substring(curPos, (curPos+n));
 			}
 			else
 			{
-				String fromEnd = inp.substring(cur_pos, (inp.length()));
+				String fromEnd = inp.substring(curPos, (inp.length()));
 				String fromStart = inp.substring(0, (n - fromEnd.length()));
 				thisNgram = fromEnd + fromStart;
 			}
@@ -81,12 +81,12 @@ public class NgramAnalyser
 				ngramSize++;
 			}
 		}
-		
+
 		// TODO Count number of unique characters
 		if(n == 1)
 		{
 			alphabetSize = ngram.size();
-			
+
 		}
 		else
 		{
@@ -158,13 +158,18 @@ public class NgramAnalyser
 	 * where ngrams are presented in alphabetical order.     
 	 */
 	public String toString()
-	{
-		double[] keysArray;
-		String asdf = "";
-		keysArray = ngram.keySet().toArray();
-		//TODO replace this line with your code
-		
-		return null;
+	{		
+		SortedSet<String> keysArray = new TreeSet<String>(ngram.keySet());
+		String toRet = "";
+		toRet += (ngramSize + "\n");
+		for (String key : keysArray)
+		{
+			Integer freq = ngram.get(key);
+			String freqS = Integer.toString(freq); 
+			String thisKey = (key + " " + freqS + "\n");
+			toRet += thisKey;
+		}		
+		return toRet;
 	}
 
 }
