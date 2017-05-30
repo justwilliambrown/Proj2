@@ -50,8 +50,8 @@ public class ProjectTest
         //This next bit is ridiculously inefficient memory wise but I'm lazy so there.
         String[] lines = analyser.toString().split("\r\n|\r|\n");
         int linesLength = lines.length;
-        System.out.println(linesLength);
-        System.out.println(minLines);
+        //System.out.println(linesLength);
+        //System.out.println(minLines);
         assertTrue(linesLength >= minLines);
       
 	}
@@ -64,14 +64,23 @@ public class ProjectTest
 
 	@Test(timeout=1000)
 	public void testLaplaceExample() {
-		assertEquals(0,1); //TODO replace with test code
+		MarkovModel mkMdl = new MarkovModel(2, "aabcabaacaac");
+		double c = mkMdl.laplaceEstimate("aac");
+		double b = mkMdl.laplaceEstimate("aab");
+		double a = mkMdl.laplaceEstimate("aaa");
+		System.out.println(c);
+		assertTrue(c >= 0.4999 && c <= 0.5001);
+		assertTrue(b >= 0.3332 && b <= 0.3334);
+		assertTrue(a >= 0.1666 && a <= 0.1668);
 	}
 
 	@Test(timeout=1000)
 	public void testSimpleExample() {
-		assertEquals(0,1); //TODO replace with test code
+		MarkovModel mkMdl = new MarkovModel(2, "aabcabaacaac");
+		double b = mkMdl.simpleEstimate("aab");
+		System.out.println(b);
+		assertTrue(b == (1.0/3.0));
 	}
-
 
 	@Test
 	public void testTask3example() 

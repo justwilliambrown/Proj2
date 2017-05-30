@@ -37,16 +37,19 @@ public class MarkovModel
 	/** Estimate the probability of a sequence appearing in the text 
 	 * using simple estimate of freq seq / frequency front(seq).
 	 * @param sequence String of length k+1
-	 * @return double probability of the last letter occuring in the 
+	 * @return double probability of the last letter occurring in the 
 	 * context of the first ones or 0 if front(seq) does not occur.
 	 */
 	public double simpleEstimate(String sequence) {
 		double prob;
 		String seqNotLast = sequence.substring(0, sequence.length()-1);
+
 		if (ngram.getDistinctNgrams().contains(seqNotLast))
 		{
+			double n1g = n1gram.getNgramFrequency(sequence);
+			double ng = ngram.getNgramFrequency(seqNotLast);
 			try{
-			prob = (n1gram.getNgramFrequency(sequence)/(ngram.getNgramFrequency(seqNotLast)));
+				prob = (n1g/ng);
 			}
 			catch(ArithmeticException e){
 				return 0.0;
@@ -66,8 +69,12 @@ public class MarkovModel
 	public double laplaceEstimate(String sequence) 
 	{ 
 		//TODO replace this line with your code
-		//npc
-		return -1.0;
+		String context = sequence.substring(0, sequence.length()-1);
+		double npc = n1gram.getNgramFrequency(sequence);
+		double np = ngram.getNgramFrequency(context);
+		double laplace;
+		laplace = (npc + 1)/(np + ngram.getAlphabetSize());
+		return laplace;
 	}
 
 	/**
@@ -76,7 +83,12 @@ public class MarkovModel
 	public String toString()
 	{
 		//TODO replace this line with your code
-		return null;
+		String toRet = "";
+		String k = Integer.toString(getK());
+		toRet += (k + "\n");
+		toRet += (Integer.toString(ngram.getAlphabetSize()) + "\n");
+		toRet += ngram.toString() + n1gram.toString();
+		return toRet;
 	}
 
 }

@@ -135,6 +135,21 @@ public class NgramAnalyserTest
     }
 
     @Test(timeout=1000)
+    public void testPrint() {
+        NgramAnalyser analyser;
+        String[] inputTexts = { "WXyZ", "abc", "aabcabaacaac" };
+        int[] ngramSizes = {1, 2, 3}; 
+        
+        for (String inputText : inputTexts) {
+            for (int n : ngramSizes) {
+                analyser = new NgramAnalyser(n,inputText);
+                assertEquals( inputText.length(), analyser.getNgramCount());
+                analyser.toString();
+            }
+        }
+    }
+
+    @Test(timeout=1000)
     public void fieldsUnaltered() {
         NgramAnalyser analyser = new NgramAnalyser(1,"aa");
         Class<? extends NgramAnalyser> clazz = analyser.getClass();

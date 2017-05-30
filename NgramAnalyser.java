@@ -37,6 +37,7 @@ public class NgramAnalyser
 	 * e.g. "abbbbc" includes "bca" and "cab" in its 3-grams
 	 * @param int n size of n-grams to create
 	 * @param String inp input string to be modelled
+	 * @throws IllegalArgumentException if input is invalid.
 	 */
 
 	public NgramAnalyser(int n, String inp) 
@@ -82,7 +83,6 @@ public class NgramAnalyser
 			}
 		}
 
-		// TODO Count number of unique characters
 		if(n == 1)
 		{
 			alphabetSize = ngram.size();
@@ -96,6 +96,7 @@ public class NgramAnalyser
 
 	/** 
 	 * Analyses the input text for n-grams of size 1.
+	 * Conveniently how to find alphabet size
 	 */
 	public NgramAnalyser(String inp) 
 	{
@@ -103,18 +104,18 @@ public class NgramAnalyser
 	}
 
 	/**
-	 * @return int the size of the alphabet of a given input
+	 * @return [int] the size of the alphabet of a given input
 	 */
 	public int getAlphabetSize() {
 		return alphabetSize;
 	}
 
 	/**
-	 * @return the total number of distinct n-grams appearing
+	 * @return [int] the total number of distinct n-grams appearing
 	 *         in the input text.
 	 */
 	public int getDistinctNgramCount() {
-		System.out.println(ngram.size());
+		//System.out.println(ngram.size());
 		return(ngram.size());
 	}
 
@@ -168,7 +169,8 @@ public class NgramAnalyser
 			String freqS = Integer.toString(freq); 
 			String thisKey = (key + " " + freqS + "\n");
 			toRet += thisKey;
-		}		
+		}
+		System.out.println(toRet);
 		return toRet;
 	}
 
