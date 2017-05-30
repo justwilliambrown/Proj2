@@ -73,7 +73,7 @@ public class ModelMatcher
 	 */
 	private double averageLogLikelihood(HashMap<String,Double> logs, int ngramCount)
 	{
-		//TODO
+		
 		int sizeOfMap = logs.size();
 		return 0.1;
 	}
