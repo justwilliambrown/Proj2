@@ -7,8 +7,8 @@ import java.io.*;
 /** Create and manipulate Markov models and model matchers for lists of training data 
  * a test data String and generate output from it for convenient display.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author William Chesnutt 22250495
+ * @version 31/05/2017
  *
  */
 public class MatcherController {
@@ -27,12 +27,14 @@ public class MatcherController {
 
     /** Generate models for analysis
      * @param k order of the markov models to be used
+     * @param trainingDataList List of strings used to generate Markov Models
      * @param testData String to check against different models
      * @throw unchecked exceptions if the input order or data inputs are invalid
      */
     public MatcherController(int k, ArrayList<String> trainingDataList, String testData) 
     {
-      //TODO
+      modelList = new ArrayList<MarkovModel>();
+      matcherList = new ArrayList<ModelMatcher>();
     }
 
  
@@ -41,12 +43,12 @@ public class MatcherController {
      * ff file contents can be got, otherwise null
      * This method should process any exceptions that arise.
      */
-    private  static String getFileContents(String filename) {
+    private static String getFileContents(String filename) 
+    {
         //TODO 
         return null;
     }
 
- 
 
     /**
      * @return the ModelMatcher object that has the highest average loglikelihood
@@ -58,10 +60,12 @@ public class MatcherController {
         return null;
     }
 
+    
     /** @return String an *explanation* of
      * why the test string is the match from the candidate models
      */
-    public String explainBestMatch(ModelMatcher best) {
+    public String explainBestMatch(ModelMatcher best)
+    {
         //TODO
         return null;
     }

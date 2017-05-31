@@ -165,12 +165,12 @@ public class NgramAnalyser
 		toRet += (ngramSize + "\n");
 		for (String key : keysArray)
 		{
-			Integer freq = ngram.get(key);
+			int freq = ngram.get(key);
 			String freqS = Integer.toString(freq); 
 			String thisKey = (key + " " + freqS + "\n");
 			toRet += thisKey;
 		}
-		System.out.println(toRet);
+		//System.out.println(toRet);
 		return toRet;
 	}
 

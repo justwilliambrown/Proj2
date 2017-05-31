@@ -2,6 +2,8 @@ import java.util.HashMap;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Report the average log likelihood of a test String occuring in a 
@@ -16,14 +18,14 @@ public class ModelMatcher
 	/** log likelihoods for a teststring under a given model */
 	private HashMap<String,Double> logLikelihoodMap;
 	/** summary statistic for this setting */
-	private double averageLogLikelihood;  
+	private double averageLogLikelihood;
 
 	/**
 	 * Constructor to initialise the fields for the log likelihood map for 
 	 * a test string and a given Markov model and 
 	 * the average log likelihood summary statistic
 	 * @param MarkovModel model a given Markov model object
-	 * @param String teststring
+	 * @param String teststring the string to check compatability with the model
 	 */
 	public ModelMatcher(MarkovModel model, String testString)
 	{
@@ -48,7 +50,7 @@ public class ModelMatcher
 			String context = seq.substring(0, kVal);
 			// impChar should be the last character of seq
 			String impChar = seq.substring(kVal, seq.length()); 
-			
+
 			double loggedProb = Math.log10(model.laplaceEstimate(seq));
 			if (logLikelihoodMap.containsKey(seq))
 			{
@@ -59,6 +61,7 @@ public class ModelMatcher
 				logLikelihoodMap.put(seq, loggedProb);				
 			}
 		}
+		averageLogLikelihood = averageLogLikelihood(logLikelihoodMap, testString.length());
 
 	}
 
@@ -73,9 +76,13 @@ public class ModelMatcher
 	 */
 	private double averageLogLikelihood(HashMap<String,Double> logs, int ngramCount)
 	{
-		
-		int sizeOfMap = logs.size();
-		return 0.1;
+		double totalLogs = 0.0;
+		for (String i : logs.keySet())
+		{
+			totalLogs += logs.get(i);
+		}
+		double avg = totalLogs/ngramCount;
+		return avg;
 	}
 
 	/** Helper method to calculate the total log likelihood statistic
@@ -87,8 +94,12 @@ public class ModelMatcher
 	 */
 	private double totalLogLikelihood(HashMap<String,Double> logs)
 	{
-		//TODO
-		return 0.1;
+		double totalLogs = 0.0;
+		for (String i : logs.keySet())
+		{
+			totalLogs += logs.get(i);
+		}
+		return totalLogs;
 	}
 
 
@@ -101,6 +112,7 @@ public class ModelMatcher
 	}
 
 	/**
+	 * @param  ngram String the ngram to find the log likelihood of.
 	 * @return the log likelihood value for a given ngram from the input string
 	 */
 	public double getLogLikelihood(String ngram) 
@@ -116,8 +128,17 @@ public class ModelMatcher
 	 */
 	public String toString() 
 	{
-		//TODO
-		return null;
+		SortedSet<String> keysArray = new TreeSet<String>(logLikelihoodMap.keySet());
+		String toRet = "";
+		for (String key : keysArray)
+		{
+			double logLike = logLikelihoodMap.get(key);
+			String logLikeS = Double.toString(logLike); 
+			String thisKey = (key + "     " + logLikeS + "\n");
+			toRet += thisKey;
+		}
+		System.out.println(toRet);
+		return toRet;
 	}
 
 

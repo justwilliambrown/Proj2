@@ -1,4 +1,3 @@
-import java.util.Set;
 /**
  * Construct a Markov model of order /k/ based on an input string.
  * 
