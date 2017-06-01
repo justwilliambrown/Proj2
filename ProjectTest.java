@@ -57,7 +57,18 @@ public class ProjectTest
 
 	@Test(timeout=1000)
 	public void testGetDistinctNgrams() {
-		assertEquals(0,1); //TODO replace with test code
+		NgramAnalyser analyser = new NgramAnalyser("aaa");
+		NgramAnalyser analyser1 = new NgramAnalyser(3, "abc");
+		NgramAnalyser analyser2 = new NgramAnalyser(3, "bcbabbcbc");
+		NgramAnalyser analyser3 = new NgramAnalyser(2, "baba");
+
+		assertEquals(analyser.getDistinctNgrams().size(),1);
+		assertEquals(analyser1.getDistinctNgrams().size(),3);
+		assertEquals(analyser2.getDistinctNgrams().size(),6);
+		assertEquals(analyser3.getDistinctNgrams().size(),2);
+
+
+
 	}
 
 	@Test(timeout=1000)
