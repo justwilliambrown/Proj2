@@ -1,8 +1,11 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /** Create and manipulate Markov models and model matchers for lists of training data 
  * a test data String and generate output from it for convenient display.
@@ -33,32 +36,51 @@ public class MatcherController {
 	 */
 	public MatcherController(int k, ArrayList<String> trainingDataList, String testData) 
 	{
+		if (k < 0)
+		{
+			throw new IllegalArgumentException("K cannot be less than zero");
+		}
+		if (testData == "" || testData == null)
+		{
+			throw new IllegalArgumentException("The data to test cannot be blank");
+		}
+		
 		modelList = new ArrayList<MarkovModel>();
 		matcherList = new ArrayList<ModelMatcher>();
-		
+
+		this.trainingDataList = trainingDataList;
+
 		//Create a markov model for each entry in trainingDataList
 		for (String i : trainingDataList)
 		{
 			modelList.add(new MarkovModel(k, i));
 		}
-		
-		
+		// For each Markov Model a Model Matcher
+		for (MarkovModel i : modelList)
+		{
+			matcherList.add(new ModelMatcher(i, testData));
+		}
+
+		//Find the best modelmatcher
+		ModelMatcher best = getBestMatch(matcherList);
+		String bestMatch = explainBestMatch(best);
 	}
-
-
 
 	/** @return a string containing all lines from a file 
+	 *  @param the name of the file to import
+	 *  
 	 * ff file contents can be got, otherwise null
 	 * This method should process any exceptions that arise.
+	 * @throws IOException 
 	 */
-	private static String getFileContents(String filename) 
+	private static String getFileContents(String filename) throws IOException 
 	{
-		//TODO 
-		return null;
+		byte[] encoded = Files.readAllBytes(Paths.get(filename));
+		return new String(encoded);
 	}
 
-
 	/**
+	 * @param an arraylist of ModelMatchers
 	 * @return the ModelMatcher object that has the highest average loglikelihood
 	 * (where all candidates are trained for the same test string
 	 */
@@ -84,10 +106,10 @@ public class MatcherController {
 	/** @return String an *explanation* of
 	 * why the test string is the match from the candidate models
 	 */
-	// WTF is this description???????? 
 	public String explainBestMatch(ModelMatcher best)
 	{
-		//TODO
+		double normalProb = Math.pow(10, best.getAverageLogLikelihood());
+		String toRet = "This model was the best as the average likelihood was " + normalProb + "\n";
 		return null;
 	}
 

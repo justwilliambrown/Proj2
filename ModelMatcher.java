@@ -32,7 +32,7 @@ public class ModelMatcher
 		logLikelihoodMap = new HashMap<String, Double>();
 		int kVal = model.getK();
 		String seq;
-		for (int curPos = 0; (curPos + kVal) < testString.length(); curPos++)
+		for (int curPos = 0; (curPos) < testString.length(); curPos++)
 		{
 			if (curPos + (kVal + 1) <= testString.length())
 			{
@@ -137,7 +137,6 @@ public class ModelMatcher
 			String thisKey = (key + "     " + logLikeS + "\n");
 			toRet += thisKey;
 		}
-		System.out.println(toRet);
 		return toRet;
 	}
 

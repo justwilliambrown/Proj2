@@ -21,6 +21,7 @@ public class MarkovModel
 	 */
 	public MarkovModel(int k, String s) 
 	{
+		this.k = k;
 		ngram = new NgramAnalyser(k, s);
 		n1gram = new NgramAnalyser((k+1), s);
 	}
@@ -67,12 +68,11 @@ public class MarkovModel
 	 */
 	public double laplaceEstimate(String sequence) 
 	{ 
-		//TODO replace this line with your code
-		String context = sequence.substring(0, sequence.length()-1);
+		String context = sequence.substring(0, (sequence.length()-1));
 		double npc = n1gram.getNgramFrequency(sequence);
 		double np = ngram.getNgramFrequency(context);
 		double laplace;
-		laplace = (npc + 1)/(np + ngram.getAlphabetSize());
+		laplace = (npc + 1)/(np + n1gram.getAlphabetSize());
 		return laplace;
 	}
 
@@ -81,7 +81,6 @@ public class MarkovModel
 	 */
 	public String toString()
 	{
-		//TODO replace this line with your code
 		String toRet = "";
 		String k = Integer.toString(getK());
 		toRet += (k + "\n");

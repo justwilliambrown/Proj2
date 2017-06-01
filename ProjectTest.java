@@ -1,5 +1,3 @@
-
-
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -68,7 +66,7 @@ public class ProjectTest
 		double c = mkMdl.laplaceEstimate("aac");
 		double b = mkMdl.laplaceEstimate("aab");
 		double a = mkMdl.laplaceEstimate("aaa");
-		System.out.println(c);
+		//System.out.println(c);
 		assertTrue(c >= 0.4999 && c <= 0.5001);
 		assertTrue(b >= 0.3332 && b <= 0.3334);
 		assertTrue(a >= 0.1666 && a <= 0.1668);
@@ -78,7 +76,7 @@ public class ProjectTest
 	public void testSimpleExample() {
 		MarkovModel mkMdl = new MarkovModel(2, "aabcabaacaac");
 		double b = mkMdl.simpleEstimate("aab");
-		System.out.println(b);
+		//System.out.println(b);
 		assertTrue(b == (1.0/3.0));
 	}
 
@@ -87,6 +85,7 @@ public class ProjectTest
 	{
 		MarkovModel model = new MarkovModel(2,"aabcabaacaac");
 		ModelMatcher match = new ModelMatcher(model,"aabbcaac");
-		assertEquals(0,1); //TODO replace with test code
+		//Precision issues are amazing...
+		assertEquals(-0.3849, match.getAverageLogLikelihood(), 0.0001);
 	}
 }
